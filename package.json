@@ -1,0 +1,14 @@
+{
+  "name": "core-angular",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:babelcoder-courses/core-angular.git",
+  "author": "n_thongjor <n.thongjor@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "concurrently -k \"npm run --prefix api dev\" \"npm start --prefix ui\""
+  },
+  "dependencies": {
+    "concurrently": "^3.4.0"
+  }
+}

@@ -1,0 +1,40 @@
+<div class="row align-items-center justify-content-between">
+  <div class="col-2">
+    Books
+  </div>
+  <div class="col-6">
+    <input
+      class="form-control"
+      placeholder="Search..."
+      (input)="search($event.target.value)"/>
+  </div>
+  <div class="col-4">
+    <a
+      *ngIf="isLoggedIn"
+      class="btn btn-secondary btn-sm"
+      routerLink="/books/new">Create</a>
+  </div>
+</div>
+<hr />
+<div class="list-group">
+  <a class="list-group-item"
+    *ngFor="let book of books | async"
+    [routerLink]="['/books', book.id]">
+    {{ book.title }}
+  </a>
+</div>
+
+<nav class="mt-1">
+  <ul class="pagination">
+    <li
+      *ngFor="let page of totalPages"
+      [ngClass]="{'page-item': true, 'active': page == currentPage}">
+      <a
+        class="page-link"
+        [routerLink]="['/books']" [queryParams]="{ page: page }">
+        {{ page }}
+      </a>
+    </li>
+  </ul>
+</nav>
+

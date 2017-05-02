@@ -1,0 +1,10 @@
+<div class="list-group">
+  <a
+    *ngFor="let category of categories | async"
+    class="list-group-item"
+    routerLink="/books"
+    routerLinkActive="active"
+    [queryParams]="{ categoryId: category.id }">
+    {{ category.title }}
+  </a>
+</div>

@@ -1,0 +1,13 @@
+<div *ngFor="let user of users | async" class="card">
+  <div class="card-block">
+    <h2 class="card-title">{{ user.email }}</h2>
+  </div>
+  <div class="list-group list-group-flush">
+    <a
+      *ngFor="let book of user.books"
+      [routerLink]="['/books', book.id]"
+      class="list-group-item">
+      {{ book.title }}
+    </a>
+  </div>
+</div>
