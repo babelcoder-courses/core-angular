@@ -22,8 +22,10 @@ const BooksController = {
   },
 
   create(req, res) {
-    if(BooksPolicy.for('create', req.user)) {
-      const book = Books.create(req.body)
+    const user = req.user
+
+    if(BooksPolicy.for('create', user)) {
+      const book = Books.create({ ...req.body, authorId: user.id })
 
       res.status(201).json({ book })
     } else {

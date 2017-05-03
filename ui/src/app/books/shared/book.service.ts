@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { RequestOptionsArgs, Response, Headers } from '@angular/http';
+import { AuthHttpService } from '../../auth/shared/auth-http.service';
 import { Observable } from 'rxjs/Observable';
 import { Book } from './book';
 import { BooksResponse } from './books-response';
 
-import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class BookService {
-
-  constructor(private http: Http) {}
+  constructor(private http: AuthHttpService) {}
 
   getBooks(page = 1, categoryId): Observable<BooksResponse> {
-    const options = new RequestOptions({ params: { page, categoryId } });
+    const options: RequestOptionsArgs = { params: { page, categoryId } };
 
     return this.http
       .get('/api/books', options)
@@ -32,28 +31,31 @@ export class BookService {
   }
 
   createBook(book: Book): Observable<Book> {
+    const options: RequestOptionsArgs = {
+      headers: new Headers({ 'Content-Type': 'application/json' })
+    };
+
     return this.http
-      .post('/api/books', { ...book }, this.getRequestOptions())
+      .post('/api/books', book, options)
       .map((res: Response) => res.json().book as Book);
   }
 
-  updateBook(id: number, book: Book) {
+  updateBook(id: number, book: Book): Observable<Book> {
+    const options: RequestOptionsArgs = {
+      headers: new Headers({ 'Content-Type': 'application/json' })
+    };
+
     return this.http
-      .patch(`/api/books/${id}`, { ...book }, this.getRequestOptions())
+      .patch(`/api/books/${id}`, book, options)
+      .map((res: Response) => res.json().book as Book);
   }
 
-  search(categoryId: string, query: string) {
-    const params = categoryId ? { categoryId, query } : { query };
-    const options = new RequestOptions({ params });
+  search(categoryId: number, query: string): Observable<Book[]> {
+    const options: RequestOptionsArgs =
+      { params: categoryId ? { categoryId, query } : { query} };
 
     return this.http
       .get('/api/books/search', options)
       .map((res: Response) => res.json().books as Book[])
-  }
-
-  private getRequestOptions() {
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-
-    return new RequestOptions({ headers });
   }
 }

@@ -6,7 +6,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { AuthService } from './auth/shared/auth.service';
-import { MockBookService } from './books/shared/mock-book.service';
+import { AuthHttpService } from './auth/shared/auth-http.service';
+import { BookService } from './books/shared/book.service';
 import { AuthGuard } from './auth/shared/auth.guard';
 import { UnsavedChangesGuard } from './shared/unsaved-changes.guard';
 import { FlashMessageService } from './flash-message/shared/flash-message.service';
@@ -117,10 +118,11 @@ const appRoutes: Routes = [
   ],
   providers: [
     AuthService,
+    AuthHttpService,
     AuthGuard,
     UnsavedChangesGuard,
     FlashMessageService,
-    MockBookService
+    BookService
   ],
   bootstrap: [AppComponent]
 })

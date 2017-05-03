@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MockCategoryService } from './shared/mock-category.service';
+import { CategoryService } from './shared/category.service';
 import { Category } from './shared/category';
 
 @Component({
@@ -8,14 +8,14 @@ import { Category } from './shared/category';
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.css'],
   providers: [
-    MockCategoryService
+    CategoryService
   ]
 })
 export class CategoriesComponent implements OnInit {
 
   categories: Observable<Category[]>;
 
-  constructor(private categoryService: MockCategoryService) { }
+  constructor(private categoryService: CategoryService) { }
 
   ngOnInit() {
     this.categories = this.categoryService.getCategories();

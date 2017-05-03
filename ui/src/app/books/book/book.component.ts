@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { MockBookService } from '../shared/mock-book.service';
+import { BookService } from '../shared/book.service';
 import { Book } from '../shared/book';
 import { AuthService } from '../../auth/shared/auth.service'
 
@@ -19,7 +19,7 @@ export class BookComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private bookService: MockBookService,
+    private bookService: BookService,
     private authService: AuthService
   ) { }
 

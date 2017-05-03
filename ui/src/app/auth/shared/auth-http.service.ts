@@ -11,7 +11,7 @@ import {
 import { Observable } from 'rxjs/Observable'
 
 @Injectable()
-export class AuthHttpService extends Http{
+export class AuthHttpService extends Http {
   constructor(backend: XHRBackend, options: RequestOptions) {
     const token = localStorage.getItem('access-token');
     options.headers.set('Authorization', `Bearer ${token}`);
@@ -32,17 +32,6 @@ export class AuthHttpService extends Http{
       url.headers.set('Authorization', `Bearer ${token}`);
     }
 
-    return super.request(url, options).catch(this.handleAuthError.bind(this));
+    return super.request(url, options);
   }
-
-  private handleAuthError() {
-    return (res: Response) => {
-      if(res.status === 401) {
-
-      }
-
-      return Observable.throw(res);
-    }
-  }
-
 }

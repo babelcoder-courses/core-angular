@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { Book } from '../shared/book';
-import { MockBookService } from '../shared/mock-book.service';
+import { BookService } from '../shared/book.service';
 import { BooksResponse } from '../shared/books-response';
 import { AuthService } from '../../auth/shared/auth.service'
 
@@ -25,7 +25,7 @@ export class BookListComponent implements OnInit {
   private isLoggedIn = false;
 
   constructor(
-    private bookService: MockBookService,
+    private bookService: BookService,
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthService

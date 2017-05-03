@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MockUserService } from '../shared/mock-user.service';
+import { UserService } from '../shared/user.service';
 import { User } from '../shared/user';
 
 @Component({
@@ -8,14 +8,14 @@ import { User } from '../shared/user';
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.css'],
   providers: [
-    MockUserService
+    UserService
   ]
 })
 export class UserListComponent implements OnInit {
 
   users: Observable<User[]>;
 
-  constructor(private userService: MockUserService) { }
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
     this.users = this.userService.getUsers();

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ComponentCanDeactivate } from '../../shared/component-can-deactivate';
-import { MockBookService } from '../shared/mock-book.service';
+import { BookService } from '../shared/book.service';
 import { Book } from '../shared/book';
 
 @Component({
@@ -20,14 +20,14 @@ export class BookFormComponent implements OnInit, ComponentCanDeactivate {
     private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
-    private bookService: MockBookService
+    private bookService: BookService
   ) { }
 
   ngOnInit() {
     this.formType = this.route.snapshot.data.formType;
 
     this.createForm();
-    if(this.formType !== 'EDIT') this.loadBook();
+    if(this.formType === 'EDIT') this.loadBook();
   }
 
   canDeactivate(): boolean {
@@ -42,14 +42,16 @@ export class BookFormComponent implements OnInit, ComponentCanDeactivate {
   }
 
   createBook() {
-    this.bookService.createBook(this.form.value);
-    this.router.navigate(['/books']);
+    this.bookService
+      .createBook(this.form.value)
+      .subscribe(({ id }: Book) => this.router.navigate(['/books', id]));
   }
 
   updateBook() {
     const { id } = this.route.snapshot.params
-    this.bookService.updateBook(id, this.form.value);
-    this.router.navigate(['/books', id]);
+    this.bookService
+      .updateBook(id, this.form.value)
+      .subscribe((({ id }: Book) => this.router.navigate(['/books', id])));
   }
 
   private createForm() {

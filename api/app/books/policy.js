@@ -8,11 +8,11 @@ const BooksPolicy = {
   },
 
   update(user, book) {
-    return user && user.id === book.authorId
+    return user && user.id == book.authorId
   },
 
   destroy(user, book) {
-    return user && (user.isAdmin || user.id === book.authorId)
+    return user && (user.isAdmin || user.id == book.authorId)
   }
 }
 
