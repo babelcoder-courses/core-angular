@@ -4,7 +4,7 @@ import { Subject, BehaviorSubject } from 'rxjs';
 import { Book } from '../shared/book';
 import { BookService } from '../shared/book.service';
 import { BooksResponse } from '../shared/books-response';
-import { AuthService } from '../../auth/shared/auth.service'
+import { AuthService } from '../../shared/auth.service'
 
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';

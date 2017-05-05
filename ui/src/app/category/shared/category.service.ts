@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import { Category } from './category';
+import { AuthHttpService } from '../../shared/auth-http.service';
 
 @Injectable()
 export class CategoryService {
 
-  constructor(private http: Http) {
+  constructor(private http: AuthHttpService) {
 
   }
 

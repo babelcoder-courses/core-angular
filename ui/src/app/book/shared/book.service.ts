@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RequestOptionsArgs, Response, Headers } from '@angular/http';
-import { AuthHttpService } from '../../auth/shared/auth-http.service';
+import { AuthHttpService } from '../../shared/auth-http.service';
 import { Observable } from 'rxjs/Observable';
 import { Book } from './book';
 import { BooksResponse } from './books-response';
@@ -8,7 +8,7 @@ import { BooksResponse } from './books-response';
 import 'rxjs/add/operator/map';
 
 @Injectable()
-export class MockBookService {
+export class BookService {
   constructor(private http: AuthHttpService) {}
 
   getBooks(page = 1, categoryId): Observable<BooksResponse> {
@@ -58,5 +58,4 @@ export class MockBookService {
       .get('/api/books/search', options)
       .map((res: Response) => res.json().books as Book[])
   }
-
 }

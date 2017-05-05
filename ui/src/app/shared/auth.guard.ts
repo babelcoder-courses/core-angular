@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { AuthService } from './auth.service';
-import { FlashMessageService } from '../../flash-message/shared/flash-message.service';
+import { AuthService } from '../shared/auth.service';
+import { FlashMessageService } from './flash-message/shared/flash-message.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

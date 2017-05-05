@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { AuthService } from './auth/shared/auth.service';
+import { AuthService } from './shared/auth.service';
 
 @Component({
   selector: 'app-root',

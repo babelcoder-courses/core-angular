@@ -1,4 +1,4 @@
-import { Book } from '../../books/shared/book';
+import { Book } from '../../book/shared/book';
 
 export interface User {
   id: number;
