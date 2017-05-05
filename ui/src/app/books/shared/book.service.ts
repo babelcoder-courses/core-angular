@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RequestOptionsArgs, Response, Headers } from '@angular/http';
-import { AuthHttpService } from '../../auth/shared/auth-http.service';
+import { AuthHttpService } from '../../shared/auth-http.service';
 import { Observable } from 'rxjs/Observable';
 import { Book } from './book';
 import { BooksResponse } from './books-response';

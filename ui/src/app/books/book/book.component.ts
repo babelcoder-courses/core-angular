@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { BookService } from '../shared/book.service';
 import { Book } from '../shared/book';
-import { AuthService } from '../../auth/shared/auth.service'
+import { AuthService } from '../../shared/auth.service';
 
 import 'rxjs/add/operator/switchMap';
 
