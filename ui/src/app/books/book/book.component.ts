@@ -14,7 +14,7 @@ import 'rxjs/add/operator/switchMap';
 export class BookComponent implements OnInit {
 
   book: Book;
-  private isLoggedIn = false;
+  isLoggedIn = false;
 
   constructor(
     private router: Router,

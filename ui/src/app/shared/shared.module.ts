@@ -4,7 +4,7 @@ import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModuleWithProviders } from '@angular/core';
 
-import { AuthHttpService } from './auth-http.service';
+import { AuthInterceptor } from './auth.interceptor';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { UnsavedChangesGuard } from './unsaved-changes.guard';
@@ -33,7 +33,7 @@ export class SharedModule {
       providers: [
         FlashMessageService,
         AuthService,
-        AuthHttpService,
+        AuthInterceptor,
         AuthGuard,
         UnsavedChangesGuard
       ]

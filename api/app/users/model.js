@@ -28,7 +28,7 @@ const Users = {
   },
 
   genToken(user) {
-    return jwt.sign({ sub: user.id}, config.secretKey, { expiresIn: '1h'})
+    return jwt.sign({ sub: user.id}, config.secretKey, { expiresIn: '1h' })
   },
 
   findByEmail(email) {

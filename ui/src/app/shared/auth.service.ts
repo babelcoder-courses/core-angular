@@ -1,16 +1,21 @@
-import { Injectable } from '@angular/core';
-import { Http, RequestOptions, Headers, Response } from '@angular/http';
+import { Injectable, Inject } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, BehaviorSubject } from 'rxjs';
-
 import 'rxjs/add/operator/map';
+
+import { LOCAL_STORAGE } from './local-storage.provider';
+import { LocalStorage } from './local-storage';
 
 @Injectable()
 export class AuthService {
 
   loggedIn = new BehaviorSubject<boolean>(!!this.getToken());
 
-  constructor(private http: Http, private router: Router) {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    @Inject(LOCAL_STORAGE) private localStorage: LocalStorage) {
 
   }
 
@@ -19,8 +24,13 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    const responseObservable = this.http
-      .post('/api/sessions', { email, password }, this.httpOptions());
+    const responseObservable = this
+      .http
+      .post(
+        '/api/sessions',
+        { email, password },
+        { headers: this.httpHeaders(), observe: 'response' }
+      );
 
     this.setTokenFromResponse(responseObservable);
     this.router.navigateByUrl('/');
@@ -32,34 +42,37 @@ export class AuthService {
   }
 
   register(email, password) {
-    const responseObservable = this.http
-      .post('/api/users', { email, password }, this.httpOptions());
+    const responseObservable = this
+      .http
+      .post(
+        '/api/users',
+        { email, password },
+        { headers: this.httpHeaders(), observe: 'response' }
+      );
 
     this.setTokenFromResponse(responseObservable);
     this.router.navigateByUrl('/');
   }
 
-  private httpOptions() {
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-
-    return new RequestOptions({ headers });
+  private httpHeaders() {
+    return new HttpHeaders().set('Content-Type', 'application/json');
   }
 
   private storeToken(token: string) {
-    localStorage.setItem('access-token', token);
+    this.localStorage.setItem('access-token', token);
   }
 
   private removeToken() {
-    localStorage.removeItem('access-token');
+    this.localStorage.removeItem('access-token');
   }
 
   private getToken(): string {
-    return localStorage.getItem('access-token');
+    return this.localStorage.getItem('access-token');
   }
 
-  private setTokenFromResponse(observable: Observable<Response>) {
+  private setTokenFromResponse(observable: Observable<any>) {
     observable
-      .map(({ headers }: Response) => headers.get('Authorization'))
+      .map(({ headers }: HttpResponse<any>) => headers.get('Authorization'))
       .map((token: string) => token.match(/Bearer (.*)/)[1])
       .subscribe((token: string) => {
         this.storeToken(token);
