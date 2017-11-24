@@ -3,7 +3,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { Book } from '../shared/book';
 import { BookService } from '../shared/book.service';
-import { BooksResponse } from '../shared/books-response';
 import { AuthService } from '../../shared/auth.service';
 
 import 'rxjs/add/operator/debounceTime';
@@ -67,7 +66,7 @@ export class BookListComponent implements OnInit {
   private loadBooks(page = 1, categoryId) {
     this.bookService
       .getBooks(page, categoryId)
-      .subscribe(({ books, currentPage, totalPages }: BooksResponse) => {
+      .subscribe(({ books, currentPage, totalPages }) => {
         this.books.next(books);
         this.currentPage = currentPage;
         this.totalPages

@@ -1,22 +1,25 @@
 import { Injectable } from '@angular/core';
-import { RequestOptionsArgs, Response, Headers } from '@angular/http';
-import { AuthHttpService } from '../../shared/auth-http.service';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Book } from './book';
 import { BooksResponse } from './books-response';
+import { BookResponse } from './book-response';
 
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class BookService {
-  constructor(private http: AuthHttpService) {}
+  constructor(private http: HttpClient) {}
 
-  getBooks(page = 1, categoryId): Observable<BooksResponse> {
-    const options: RequestOptionsArgs = { params: { page, categoryId } };
+  getBooks(page = 1, categoryId) {
+    let params = new HttpParams();
+
+    params = categoryId ?
+      params.set('categoryId', `${categoryId}`).set('page', `${page}`) :
+      params.set('page', `${page}`)
 
     return this.http
-      .get('/api/books', options)
-      .map((res: Response) => res.json())
+      .get<BooksResponse>('/api/books', { params } )
       .map(({ books, meta: { page, totalPages } }) => ({
         books,
         currentPage: page,
@@ -26,36 +29,36 @@ export class BookService {
 
   getBook(id: number): Observable<Book> {
     return this.http
-      .get(`/api/books/${id}`)
-      .map((res: Response) => res.json().book as Book)
+      .get<BookResponse>(`/api/books/${id}`)
+      .map(res => res.book)
   }
 
   createBook(book: Book): Observable<Book> {
-    const options: RequestOptionsArgs = {
-      headers: new Headers({ 'Content-Type': 'application/json' })
-    };
-
     return this.http
-      .post('/api/books', book, options)
-      .map((res: Response) => res.json().book as Book);
+      .post<BookResponse>('/api/books', book,
+        { headers: new HttpHeaders().set('Content-Type', 'application/json') })
+      .map(res => res.book);
   }
 
   updateBook(id: number, book: Book): Observable<Book> {
-    const options: RequestOptionsArgs = {
-      headers: new Headers({ 'Content-Type': 'application/json' })
-    };
-
     return this.http
-      .patch(`/api/books/${id}`, book, options)
-      .map((res: Response) => res.json().book as Book);
+    .patch<BookResponse>(
+      `/api/books/${id}`,
+      book,
+      { headers: new HttpHeaders().set('Content-Type', 'application/json') }
+    )
+    .map(data => data.book);
   }
 
   search(categoryId: number, query: string): Observable<Book[]> {
-    const options: RequestOptionsArgs =
-      { params: categoryId ? { categoryId, query } : { query} };
+    let params = new HttpParams();
+
+    params = categoryId ?
+      params.set('categoryId', `${categoryId}`).set('query', query) :
+      params.set('query', query)
 
     return this.http
-      .get('/api/books/search', options)
-      .map((res: Response) => res.json().books as Book[])
+      .get<BooksResponse>('/api/books/search', { params })
+      .map(data => data.books)
   }
 }
