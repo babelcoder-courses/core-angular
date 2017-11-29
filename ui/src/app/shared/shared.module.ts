@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModuleWithProviders } from '@angular/core';
 
@@ -14,13 +15,17 @@ import { FlashMessageService } from './flash-message/shared/flash-message.servic
 @NgModule({
   imports: [
     CommonModule,
-    HttpClientModule
+    RouterModule
   ],
   declarations: [
     FlashMessageComponent
   ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   exports: [
     CommonModule,
+    RouterModule,
     FormsModule,
     ReactiveFormsModule,
     FlashMessageComponent
@@ -32,7 +37,6 @@ export class SharedModule {
       ngModule: SharedModule,
       providers: [
         FlashMessageService,
-        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
         AuthService,
         AuthGuard,
         UnsavedChangesGuard

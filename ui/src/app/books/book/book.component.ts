@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+
 import { BookService } from '../shared/book.service';
 import { Book } from '../shared/book';
 import { AuthService } from '../../shared/auth.service';
@@ -14,7 +15,7 @@ import 'rxjs/add/operator/switchMap';
 export class BookComponent implements OnInit {
 
   book: Book;
-  private isLoggedIn = false;
+  isLoggedIn = false;
 
   constructor(
     private router: Router,

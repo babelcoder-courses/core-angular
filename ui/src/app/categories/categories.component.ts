@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { TransferState, makeStateKey } from '@angular/platform-browser';
+
 import { CategoryService } from './shared/category.service';
 import { Category } from './shared/category';
 
@@ -13,12 +14,30 @@ import { Category } from './shared/category';
 })
 export class CategoriesComponent implements OnInit {
 
-  categories: Observable<Category[]>;
+  categories: Category[];
 
-  constructor(private categoryService: CategoryService) { }
+  private CATEGORIES_KEY = makeStateKey<Category[]>('categories');
+
+  constructor(
+    private categoryService: CategoryService,
+    private state: TransferState
+  ) { }
 
   ngOnInit() {
-    this.categories = this.categoryService.getCategories();
+    this.getCategories();
+  }
+
+  private getCategories() {
+    const categories = this.state.get(this.CATEGORIES_KEY, undefined);
+
+    if(categories) {
+      this.categories = categories;
+    } else {
+      this.categoryService.getCategories().subscribe(categories => {
+        this.categories = categories;
+        this.state.set(this.CATEGORIES_KEY, this.categories);
+      });
+    }
   }
 
 }

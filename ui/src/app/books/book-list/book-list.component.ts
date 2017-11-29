@@ -21,7 +21,7 @@ export class BookListComponent implements OnInit {
   totalPages: number[];
 
   private searchTermStream = new Subject<string>();
-  private isLoggedIn = false;
+  isLoggedIn = false;
 
   constructor(
     private bookService: BookService,

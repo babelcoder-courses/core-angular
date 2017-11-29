@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Category } from '../shared/category';
 
 @Component({
@@ -9,6 +8,6 @@ import { Category } from '../shared/category';
 })
 export class CategoryListComponent {
 
-  @Input() categories: Observable<Category[]>;
+  @Input() categories: Category[];
 
 }

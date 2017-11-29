@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { Observable, BehaviorSubject } from 'rxjs';
 import 'rxjs/add/operator/map';
 
+import { LOCAL_STORAGE } from './local-storage.provider';
+import { LocalStorage } from './local-storage';
+
 @Injectable()
 export class AuthService {
 
@@ -11,7 +14,8 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private router: Router) {
+    private router: Router,
+    @Inject(LOCAL_STORAGE) private localStorage: LocalStorage) {
 
   }
 
@@ -55,15 +59,15 @@ export class AuthService {
   }
 
   private storeToken(token: string) {
-    localStorage.setItem('access-token', token);
+    this.localStorage.setItem('access-token', token);
   }
 
   private removeToken() {
-    localStorage.removeItem('access-token');
+    this.localStorage.removeItem('access-token');
   }
 
   private getToken(): string {
-    return localStorage.getItem('access-token');
+    return this.localStorage.getItem('access-token');
   }
 
   private setTokenFromResponse(observable: Observable<any>) {
