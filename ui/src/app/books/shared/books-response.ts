@@ -5,5 +5,6 @@ export interface BooksResponse {
   meta: {
     page: number;
     totalPages: number;
-  }
+    perPage: number;
+  };
 }

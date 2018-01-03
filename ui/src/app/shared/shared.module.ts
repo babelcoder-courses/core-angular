@@ -4,6 +4,16 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModuleWithProviders } from '@angular/core';
+import {
+  MatToolbarModule,
+  MatButtonModule,
+  MatSidenavModule,
+  MatListModule,
+  MatPaginatorModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatCardModule
+} from '@angular/material';
 
 import { AuthInterceptor } from './auth.interceptor';
 import { AuthService } from './auth.service';
@@ -15,11 +25,17 @@ import { FlashMessageService } from './flash-message/shared/flash-message.servic
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatPaginatorModule,
+    MatListModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCardModule
   ],
-  declarations: [
-    FlashMessageComponent
-  ],
+  declarations: [FlashMessageComponent],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
@@ -27,6 +43,14 @@ import { FlashMessageService } from './flash-message/shared/flash-message.servic
     CommonModule,
     RouterModule,
     FormsModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCardModule,
     ReactiveFormsModule,
     FlashMessageComponent
   ]
@@ -41,6 +65,6 @@ export class SharedModule {
         AuthGuard,
         UnsavedChangesGuard
       ]
-    }
+    };
   }
 }

@@ -1,18 +1,11 @@
-<div class="row align-items-center justify-content-between">
-  <div class="col-8">
-    <h2>{{ book?.title }}</h2>
-  </div>
-  <div class="col-4">
-    <a
-      *ngIf="isLoggedIn"
-      class="btn btn-secondary btn-sm"
-      (click)="editBook()">Edit</a>
-  </div>
-</div>
-<hr />
-<div class="card">
-  <div class="card-header">Content</div>
-  <div class="card-block">
-    <p class="card-text">{{ book?.content }}</p>
-  </div>
-</div>
+<mat-card>
+  <mat-card-title>
+    {{ book?.title }}
+  </mat-card-title>
+  <mat-card-content>
+    {{ book?.content }}
+  </mat-card-content>
+  <mat-card-actions>
+    <a mat-raised-button *ngIf="isLoggedIn" color="primary" (click)="editBook()">Edit</a>
+  </mat-card-actions>
+</mat-card>

@@ -11,7 +11,6 @@ import { Book } from '../shared/book';
   styleUrls: ['./book-form.component.css']
 })
 export class BookFormComponent implements OnInit, ComponentCanDeactivate {
-
   form: FormGroup;
   formType: 'NEW' | 'EDIT';
   isDirty = false;
@@ -21,13 +20,15 @@ export class BookFormComponent implements OnInit, ComponentCanDeactivate {
     private router: Router,
     private formBuilder: FormBuilder,
     private bookService: BookService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.formType = this.route.snapshot.data.formType;
 
     this.createForm();
-    if(this.formType === 'EDIT') this.loadBook();
+    if (this.formType === 'EDIT') {
+      this.loadBook();
+    }
   }
 
   canDeactivate(): boolean {
@@ -48,10 +49,12 @@ export class BookFormComponent implements OnInit, ComponentCanDeactivate {
   }
 
   updateBook() {
-    const { id } = this.route.snapshot.params
+    const { id } = this.route.snapshot.params;
     this.bookService
       .updateBook(id, this.form.value)
-      .subscribe((({ id }: Book) => this.router.navigate(['/books', id])));
+      .subscribe(({ id: bookId }: Book) =>
+        this.router.navigate(['/books', bookId])
+      );
   }
 
   private createForm() {
@@ -64,11 +67,8 @@ export class BookFormComponent implements OnInit, ComponentCanDeactivate {
   private loadBook() {
     const { id } = this.route.snapshot.params;
 
-    this.bookService
-      .getBook(id)
-      .subscribe(({ title, content }: Book) => {
-        this.form.setValue({ title, content });
-      });
+    this.bookService.getBook(id).subscribe(({ title, content }: Book) => {
+      this.form.setValue({ title, content });
+    });
   }
-
 }

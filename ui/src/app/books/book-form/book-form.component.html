@@ -1,11 +1,20 @@
-<form [formGroup]="form" (submit)="onSubmit($event)">
-  <div class="form-group">
-    <label for="title">Title</label>
-    <input type="text" class="form-control" id="title" formControlName="title" />
-  </div>
-  <div class="form-group">
-    <label for="content">Content</label>
-    <input type="text" class="form-control" id="content" formControlName="content" />
-  </div>
-  <button type="submit" class="btn btn-primary">Create</button>
-</form>
+<mat-card>
+  <mat-card-title>Book Form</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="form" (submit)="onSubmit($event)">
+      <mat-form-field>
+        <input matInput type="text" formControlName="title" placeholder="Enter title" required />
+        <mat-error *ngIf="form.hasError('required', 'title')">
+          Please enter a valid email address
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="text" formControlName="content" placeholder="Enter content" required />
+        <mat-error *ngIf="form.hasError('required', 'content')">
+          Please enter a valid email address
+        </mat-error>
+      </mat-form-field>
+      <button mat-raised-button type="submit" color="primary">Create</button>
+    </form>
+  </mat-card-content>
+</mat-card>

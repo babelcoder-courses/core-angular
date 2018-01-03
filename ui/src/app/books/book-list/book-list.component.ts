@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { PageEvent } from '@angular/material';
+
 import { Book } from '../shared/book';
 import { BookService } from '../shared/book.service';
 import { AuthService } from '../../shared/auth.service';
@@ -15,10 +18,11 @@ import 'rxjs/add/operator/switchMap';
   styleUrls: ['./book-list.component.css']
 })
 export class BookListComponent implements OnInit {
-
+  categoryId: number;
   books = new BehaviorSubject<Book[]>([]);
   currentPage: number;
-  totalPages: number[];
+  totalLength: number;
+  pageSize: number;
 
   private searchTermStream = new Subject<string>();
   isLoggedIn = false;
@@ -28,7 +32,7 @@ export class BookListComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.subscribeToIsLoggedIn();
@@ -40,13 +44,25 @@ export class BookListComponent implements OnInit {
     this.searchTermStream.next(query);
   }
 
+  onPageUpdated(page: PageEvent) {
+    const queryParams: { [key: string]: number } = { page: page.pageIndex };
+
+    if (this.categoryId) {
+      queryParams.categoryId = this.categoryId;
+    }
+
+    this.router.navigate(['/books'], { queryParams });
+  }
+
   private handleSearchTerm() {
     this.searchTermStream
       .debounceTime(300)
       .distinctUntilChanged()
-      .switchMap(
-        (query: string) => this.bookService
-          .search(this.route.snapshot.queryParams.categoryId, query)
+      .switchMap((query: string) =>
+        this.bookService.search(
+          this.route.snapshot.queryParams.categoryId,
+          query
+        )
       )
       .subscribe((books: Book[]) => this.books.next(books));
   }
@@ -54,24 +70,24 @@ export class BookListComponent implements OnInit {
   private subscribeToIsLoggedIn() {
     this.authService
       .isLoggedIn()
-      .subscribe(isLoggedIn => this.isLoggedIn = isLoggedIn);
+      .subscribe(isLoggedIn => (this.isLoggedIn = isLoggedIn));
   }
 
   private subscribeToParams() {
-    this.route.queryParams.subscribe(
-      ({ page, categoryId }) => this.loadBooks(page, categoryId)
-    );
+    this.route.queryParams.subscribe(({ page, categoryId }) => {
+      this.categoryId = categoryId;
+      this.loadBooks(page);
+    });
   }
 
-  private loadBooks(page = 1, categoryId) {
+  private loadBooks(page = 1) {
     this.bookService
-      .getBooks(page, categoryId)
-      .subscribe(({ books, currentPage, totalPages }) => {
+      .getBooks(page, this.categoryId)
+      .subscribe(({ books, currentPage, totalLength, pageSize }) => {
         this.books.next(books);
         this.currentPage = currentPage;
-        this.totalPages
-          = Array.from({ length: totalPages }, (_, index) => index + 1)
-      })
+        this.totalLength = totalLength;
+        this.pageSize = pageSize;
+      });
   }
-
 }

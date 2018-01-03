@@ -1,1 +1,7 @@
+.brand {
+  font-size: 1.1rem;
+}
 
+.separator {
+  flex-grow: 1;
+}

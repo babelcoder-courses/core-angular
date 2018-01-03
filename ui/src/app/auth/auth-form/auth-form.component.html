@@ -1,32 +1,21 @@
-<form
-  (ngSubmit)="$event.preventDefault(); onSubmit(authForm.value); authForm.reset();"
-  #authForm="ngForm">
-  <h2 class='text-center'>{{ formName }} Form</h2>
-  <hr />
-  <div class='form-group'>
-    <label html='email'>Email address</label>
-    <input
-      type='email'
-      class='form-control'
-      id='email'
-      name='email'
-      placeholder='Enter email'
-      ngModel
-      required />
-  </div>
-  <div class='form-group'>
-    <label html='password'>Password</label>
-    <input
-      type='password'
-      class='form-control'
-      id='password'
-      name='password'
-      placeholder='Enter password'
-      ngModel
-      required />
-  </div>
-  <button
-    type='submit'
-    class='btn btn-primary'
-    [disabled]="!authForm.form.valid">{{ formName }}</button>
-</form>
+<mat-card>
+  <mat-card-title>{{ formName }} Form</mat-card-title>
+  <mat-card-content>
+    <form (ngSubmit)="$event.preventDefault(); onSubmit(authForm.value); authForm.reset();" #authForm="ngForm">
+      <mat-form-field>
+        <input matInput type='email' name='email' placeholder='Enter email' ngModel required #email/>
+        <mat-error *ngIf="!email.valid">
+          Please enter a valid email address
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput type='password' name='password' placeholder='Enter password' ngModel required />
+        <mat-error *ngIf="!email.valid">
+          Password is required.
+        </mat-error>
+      </mat-form-field>
+      <button mat-raised-button type='submit' [disabled]="!authForm.form.valid" color="primary">{{ formName }}</button>
+    </form>
+  </mat-card-content>
+</mat-card>

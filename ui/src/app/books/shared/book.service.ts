@@ -14,51 +14,49 @@ export class BookService {
   getBooks(page = 1, categoryId) {
     let params = new HttpParams();
 
-    params = categoryId ?
-      params.set('categoryId', `${categoryId}`).set('page', `${page}`) :
-      params.set('page', `${page}`)
+    params = categoryId
+      ? params.set('categoryId', `${categoryId}`).set('page', `${page}`)
+      : params.set('page', `${page}`);
 
     return this.http
-      .get<BooksResponse>('/api/books', { params } )
-      .map(({ books, meta: { page, totalPages } }) => ({
+      .get<BooksResponse>('/api/books', { params })
+      .map(({ books, meta: { page: metaPage, perPage, totalPages } }) => ({
         books,
-        currentPage: page,
-        totalPages
+        currentPage: metaPage,
+        totalLength: totalPages * perPage,
+        pageSize: perPage
       }));
   }
 
   getBook(id: number): Observable<Book> {
-    return this.http
-      .get<BookResponse>(`/api/books/${id}`)
-      .map(res => res.book)
+    return this.http.get<BookResponse>(`/api/books/${id}`).map(res => res.book);
   }
 
   createBook(book: Book): Observable<Book> {
     return this.http
-      .post<BookResponse>('/api/books', book,
-        { headers: new HttpHeaders().set('Content-Type', 'application/json') })
+      .post<BookResponse>('/api/books', book, {
+        headers: new HttpHeaders().set('Content-Type', 'application/json')
+      })
       .map(res => res.book);
   }
 
   updateBook(id: number, book: Book): Observable<Book> {
     return this.http
-    .patch<BookResponse>(
-      `/api/books/${id}`,
-      book,
-      { headers: new HttpHeaders().set('Content-Type', 'application/json') }
-    )
-    .map(data => data.book);
+      .patch<BookResponse>(`/api/books/${id}`, book, {
+        headers: new HttpHeaders().set('Content-Type', 'application/json')
+      })
+      .map(data => data.book);
   }
 
   search(categoryId: number, query: string): Observable<Book[]> {
     let params = new HttpParams();
 
-    params = categoryId ?
-      params.set('categoryId', `${categoryId}`).set('query', query) :
-      params.set('query', query)
+    params = categoryId
+      ? params.set('categoryId', `${categoryId}`).set('query', query)
+      : params.set('query', query);
 
     return this.http
       .get<BooksResponse>('/api/books/search', { params })
-      .map(data => data.books)
+      .map(data => data.books);
   }
 }

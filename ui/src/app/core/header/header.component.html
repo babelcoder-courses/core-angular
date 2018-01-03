@@ -1,28 +1,12 @@
-<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
-  <a class="navbar-brand" routerLink="/">Book Store</a>
-  <div class="navbar-collapse">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/books">Books</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/users">Users</a>
-      </li>
-    </ul>
+<mat-toolbar color='primary'>
+  <a mat-button class="brand" routerLink="/">Book Store</a>
+  <a mat-button routerLink="/books">Books</a>
+  <a mat-button routerLink="/users">Users</a>
+  <div class="separator"></div>
+  <div *ngIf="!(isLoggedIn | async)">
+    <a mat-raised-button routerLink="/auth/sign-in" color="accent">Login</a>
+    <a mat-raised-button routerLink="/auth/sign-up" color="accent">Register</a>
   </div>
-  <div class="my-2 my-lg-0">
-    <div class="btn-group" *ngIf="!(isLoggedIn | async)">
-      <a
-        class="btn btn-outline-success btn-sm"
-        routerLink="/auth/sign-in">Login</a>
-      <a
-        class="btn btn-outline-success btn-sm"
-        routerLink="/auth/sign-up">Register</a>
-    </div>
-    <button
-      class="btn btn-outline-success btn-sm"
-      *ngIf="isLoggedIn | async"
-      (click)="onLogout()">Logout</button>
-  </div>
-</nav>
+  <button mat-raised-button color="accent" *ngIf="isLoggedIn | async" (click)="onLogout()">Logout</button>
+</mat-toolbar>
 <app-flash-message></app-flash-message>

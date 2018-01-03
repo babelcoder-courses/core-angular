@@ -8,7 +8,6 @@ import { Credential } from './shared/credential';
   styleUrls: ['./auth-form.component.css']
 })
 export class AuthFormComponent {
-
   @Input() formName = '';
   @Output() formSubmit = new EventEmitter<Credential>();
 
@@ -17,5 +16,4 @@ export class AuthFormComponent {
   onSubmit(credential: Credential) {
     this.formSubmit.emit(credential);
   }
-
 }

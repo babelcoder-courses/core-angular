@@ -1,13 +1,12 @@
-<div *ngFor="let user of users | async" class="card">
-  <div class="card-block">
+<mat-card *ngFor="let user of users | async">
+  <mat-card-title class="card-block">
     <h2 class="card-title">{{ user.email }}</h2>
-  </div>
-  <div class="list-group list-group-flush">
-    <a
-      *ngFor="let book of user.books"
-      [routerLink]="['/books', book.id]"
-      class="list-group-item">
-      {{ book.title }}
-    </a>
-  </div>
-</div>
+  </mat-card-title>
+  <mat-card-content class="list-group list-group-flush">
+    <mat-nav-list>
+      <a *ngFor="let book of user.books" [routerLink]="['/books', book.id]" mat-list-item>
+        {{ book.title }}
+      </a>
+    </mat-nav-list>
+  </mat-card-content>
+</mat-card>
