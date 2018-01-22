@@ -1,0 +1,12 @@
+<mat-list>
+  <mat-list *ngFor="let note of notesObservable | async">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{note.title}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>{{note.body}}</p>
+      </mat-card-content>
+    </mat-card>
+  </mat-list>
+</mat-list>

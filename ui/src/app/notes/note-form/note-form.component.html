@@ -1,0 +1,14 @@
+<mat-card>
+  <mat-card-title>Book Form</mat-card-title>
+  <mat-card-content>
+    <form (ngSubmit)="onSubmit()" #noteForm="ngForm">
+      <mat-form-field>
+        <input matInput placeholder="Title" name="title" [(ngModel)]="model.title" required>
+      </mat-form-field>
+      <mat-form-field>
+        <textarea matInput placeholder="Body" name="body" [(ngModel)]="model.body" required></textarea>
+      </mat-form-field>
+      <button type="submit" mat-raised-button color="primary" [disabled]="!noteForm.form.valid">Submit</button>
+    </form>
+  </mat-card-content>
+</mat-card>
