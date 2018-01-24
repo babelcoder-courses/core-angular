@@ -1,0 +1,17 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "concurrently -k \"yarn run dev:api\" \"yarn run dev:ui\"",
+    "dev:api-ssr": "concurrently -k \"yarn run dev:api\" \"yarn run dev:ssr\"",
+    "dev:ui": "yarn --cwd ./ui run dev",
+    "dev:ssr": "yarn --cwd ./ui run build-and-serve:dynamic",
+    "dev:api": "yarn --cwd ./api run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.0",
+    "nodemon": "^1.12.1"
+  }
+}

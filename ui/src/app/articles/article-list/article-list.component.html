@@ -1,0 +1,27 @@
+<button class="btn btn-primary" routerLink="/articles/new">Create Article</button>
+<hr />
+<div *ngIf="articles">
+  <div class="card-columns">
+      <div class="card" *ngFor="let article of articles">
+        <div class="card-body">
+          <h3 class="card-title">
+            <a [routerLink]="['/articles', article.id]">
+              {{article.title | truncate:30}}
+            </a>
+          </h3>
+          <p class="card-text">{{article.excerpt}}</p>
+          <footer class="card-text">
+            <i class="fa fa-user-o"></i>
+            <small class="text-muted">- {{article.authorName}} -</small>
+          </footer>
+        </div>
+      </div>
+    </div>
+</div>
+<hr />
+<ngb-pagination
+  pageSize="5"
+  [collectionSize]="count"
+  [(page)]="page"
+  (pageChange)="onPageChange($event)">
+</ngb-pagination>

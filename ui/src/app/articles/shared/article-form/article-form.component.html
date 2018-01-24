@@ -1,0 +1,45 @@
+<form [formGroup]="articleForm" (ngSubmit)="onSubmit()" novalidate>
+  <div class="form-group">
+    <label for="article-form-title">Title</label>
+    <input
+      type="text"
+      id="article-form-title"
+      class="form-control"
+      placeholder="Enter Title"
+      formControlName="title">
+  </div>
+  <div class="form-group">
+    <label for="article-form-excerpt">Excerpt</label>
+    <textarea
+      id="article-form-excerpt"
+      cols="30"
+      rows="5"
+      class="form-control"
+      formControlName="excerpt">
+    </textarea>
+  </div>
+  <div class="form-group">
+    <label for="article-form-content">Content</label>
+    <textarea
+      id="article-form-content"
+      cols="30"
+      rows="10"
+      class="form-control"
+      formControlName="content">
+    </textarea>
+  </div>
+  <div class="btn-group">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="clearForm()">
+      Clear
+    </button>
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="articleForm.invalid">
+      {{formName}}
+    </button>
+  </div>
+</form>

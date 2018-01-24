@@ -1,0 +1,15 @@
+<div *ngIf="article">
+  <h2>
+    {{article.title}}
+    <a [routerLink]="['/articles', article.id, 'edit']">
+      <i class="fa fa-pencil-square-o"></i>
+    </a>
+  </h2>
+  <hr />
+  <p>{{article.content}}</p>
+  <hr />
+  <footer>
+    <i class="fa fa-user-o"></i>
+    <small class="text-muted">- {{article.authorName}} -</small>
+  </footer>
+</div>
