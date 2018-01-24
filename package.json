@@ -6,7 +6,10 @@
   "author": "n_thongjor <n.thongjor@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "concurrently -k \"npm run --prefix api dev\" \"npm start --prefix ui\""
+    "dev":
+      "concurrently -k \"npm run --prefix api dev\" \"npm start --prefix ui\"",
+    "build":
+      "concurrently -k \"npm run --prefix api build\" \"npm run --prefix ui build\""
   },
   "dependencies": {
     "concurrently": "^3.4.0"

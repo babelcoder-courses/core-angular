@@ -4,13 +4,13 @@
     <form [formGroup]="form" (submit)="onSubmit($event)">
       <mat-form-field>
         <input matInput type="text" formControlName="title" placeholder="Enter title" required />
-        <mat-error *ngIf="form.hasError('required', 'title')">
+        <mat-error *ngIf="form.hasError('required', ['title'])">
           Please enter a valid email address
         </mat-error>
       </mat-form-field>
       <mat-form-field>
         <input matInput type="text" formControlName="content" placeholder="Enter content" required />
-        <mat-error *ngIf="form.hasError('required', 'content')">
+        <mat-error *ngIf="form.hasError('required', ['content'])">
           Please enter a valid email address
         </mat-error>
       </mat-form-field>

@@ -4,17 +4,21 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --proxy-config proxy.conf.json",
+    "start": "API_URL=api:8080 yarn run serve:dynamic",
     "hmr": "ng serve --hmr -e=hmr --proxy-config proxy.conf.json",
-    "build": "ng build",
+    "build": "yarn run build:dynamic",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build-and-serve:dynamic": "yarn run build:dynamic && yarn run serve:dynamic",
-    "build:dynamic": "npm run build:client-and-server-bundles && npm run webpack:server",
+    "build-and-serve:dynamic":
+      "yarn run build:dynamic && yarn run serve:dynamic",
+    "build:dynamic":
+      "yarn run build:client-and-server-bundles && yarn run webpack:server",
     "serve:dynamic": "node dist/server.js",
-    "build:client-and-server-bundles": "ng build --prod && ng build --prod --app 1 --output-hashing=false",
-    "webpack:server": "webpack --config webpack.server.config.js --progress --colors"
+    "build:client-and-server-bundles":
+      "ng build --prod && ng build --prod --app 1 --output-hashing=false",
+    "webpack:server":
+      "webpack --config webpack.server.config.js --progress --colors"
   },
   "private": true,
   "dependencies": {
@@ -32,6 +36,7 @@
     "@angular/router": "^5.0.0",
     "@nguniversal/module-map-ngfactory-loader": "^5.0.0-beta.5",
     "core-js": "^2.4.1",
+    "dotenv": "^4.0.0",
     "express-http-proxy": "^1.0.7",
     "rxjs": "^5.5.2",
     "ts-loader": "^3.1.1",

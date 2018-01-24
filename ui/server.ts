@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 // These are important and needed before anything else
 import 'zone.js/dist/zone-node';
 import 'reflect-metadata';
@@ -17,22 +19,32 @@ enableProdMode();
 // Express server
 const app = express();
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 80;
 const DIST_FOLDER = join(process.cwd(), 'dist');
 
 // Our index.html we'll use as our template
-const template = readFileSync(join(DIST_FOLDER, 'browser', 'index.html')).toString();
+const template = readFileSync(
+  join(DIST_FOLDER, 'browser', 'index.html')
+).toString();
 
-app.use('/api', proxy('localhost:8080', {
-  proxyReqPathResolver: function(req) {
-    return '/api' + require('url').parse(req.url).path;
-  }
-}));
+app.use(
+  '/api',
+  proxy(process.env.API_URL, {
+    proxyReqPathResolver: function(req) {
+      return '/api' + require('url').parse(req.url).path;
+    }
+  })
+);
 
 // * NOTE :: leave this as require() since this file is built Dynamically from webpack
-const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('./dist/server/main.bundle');
+const {
+  AppServerModuleNgFactory,
+  LAZY_MODULE_MAP
+} = require('./dist/server/main.bundle');
 
-const { provideModuleMap } = require('@nguniversal/module-map-ngfactory-loader');
+const {
+  provideModuleMap
+} = require('@nguniversal/module-map-ngfactory-loader');
 
 app.engine('html', (_, options, callback) => {
   renderModuleFactory(AppServerModuleNgFactory, {
@@ -40,9 +52,7 @@ app.engine('html', (_, options, callback) => {
     document: template,
     url: options.req.url,
     // DI so that we can get lazy-loading to work differently (since we need it to just instantly render it)
-    extraProviders: [
-      provideModuleMap(LAZY_MODULE_MAP)
-    ]
+    extraProviders: [provideModuleMap(LAZY_MODULE_MAP)]
   }).then(html => {
     callback(null, html);
   });
@@ -51,11 +61,14 @@ app.engine('html', (_, options, callback) => {
 app.set('view engine', 'html');
 app.set('views', join(DIST_FOLDER, 'browser'));
 
-app.use('/api', proxy('localhost:8080', {
-  proxyReqPathResolver: function(req) {
-    return '/api' + require('url').parse(req.url).path;
-  }
-}));
+app.use(
+  '/api',
+  proxy('localhost:8080', {
+    proxyReqPathResolver: function(req) {
+      return '/api' + require('url').parse(req.url).path;
+    }
+  })
+);
 
 // Server static files from /browser
 app.get('*.*', express.static(join(DIST_FOLDER, 'browser')));
